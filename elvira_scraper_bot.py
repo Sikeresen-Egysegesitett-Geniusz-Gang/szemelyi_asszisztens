@@ -22,7 +22,8 @@ link4 = "&u=1156&go=Menetrend"
 
 source = requests.get( link1 + indul + link2 + erkez + link3 + datum + link4 ).text
 soup = BeautifulSoup(source,'lxml')
-csv_file = open('elvira_data.csv', 'w')
+file_name = indul+"-"+erkez+"-"+datum+".csv"
+csv_file = open("elvira_data\\"+file_name, 'w')
 csv_writer =  csv.writer(csv_file)
 csv_writer.writerow(['Indulas','Erkezes','Atszallas','Idotartam','Osszes Km'])
 helyadat = soup.find_all("div", class_="xformcontrol2")
