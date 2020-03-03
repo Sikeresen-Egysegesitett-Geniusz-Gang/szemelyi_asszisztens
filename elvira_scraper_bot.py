@@ -13,30 +13,27 @@ erkezes = sys.argv[2]
 link3 = "&v=&d="
 datum = sys.argv[3]
 link4 = "&u=1156&go=Menetrend"
-try:
-    source = requests.get( link1 + indulas + link2 + erkezes + link3 + datum + link4 ).text
-    soup = BeautifulSoup(source,'lxml')
-    csv_file = open('elvira_data.csv', 'w')
-    csv_writer =  csv.writer(csv_file)
-    csv_writer.writerow(['Indulas','Erkezes','Atszallas','Idotartam','Osszes Km'])
 
-    timetable = soup.find("div", class_="rtf").tbody
-    tablerow = timetable.find_all("tr", {"style" : re.compile(r".*")})
-    datanums = 0
-    for usefuldatarows in range(0, len(tablerow), 2):
-        usefuldatas = tablerow[usefuldatarows].find_all('td')
-        ind = usefuldatas[1].text.encode('utf-8').strip()
-        erk = usefuldatas[2].text.encode('utf-8').strip()
-        atsz = usefuldatas[3].text.encode('utf-8').strip()
-        ido = usefuldatas[4].text.encode('utf-8').strip()
-        km = usefuldatas[5].text.encode('utf-8').strip()
-        if ' ' not in ind:
-            ind = ind +' '+indulas
-        if ' ' not in erk:
-            erk = erk +' '+erkezes 
-        csv_writer.writerow([ind,erk,atsz,ido,km])
-        datanums = datanums + 1
-    print("record num: "+str(datanums))
-    csv_file.close()
-except: 
-    print("Something wrong i can feel it.")
+source = requests.get( link1 + indulas + link2 + erkezes + link3 + datum + link4 ).text
+soup = BeautifulSoup(source,'lxml')
+csv_file = open('elvira_data.csv', 'w')
+csv_writer =  csv.writer(csv_file)
+csv_writer.writerow(['Indulas','Erkezes','Atszallas','Idotartam','Osszes Km'])
+timetable = soup.find("div", class_="rtf").tbody
+tablerow = timetable.find_all("tr", {"style" : re.compile(r".*")})
+datanums = 0
+for usefuldatarows in range(0, len(tablerow), 2):
+    usefuldatas = tablerow[usefuldatarows].find_all('td')
+    ind = usefuldatas[1].text.encode('utf-8').strip()
+    erk = usefuldatas[2].text.encode('utf-8').strip()
+    atsz = usefuldatas[3].text.encode('utf-8').strip()
+    ido = usefuldatas[4].text.encode('utf-8').strip()
+    km = usefuldatas[5].text.encode('utf-8').strip()
+    if ' ' not in ind:
+        ind = ind +' '+indulas
+    if ' ' not in erk:
+        erk = erk +' '+erkezes 
+    csv_writer.writerow([ind,erk,atsz,ido,km])
+    datanums = datanums + 1
+print("record num: "+str(datanums))
+csv_file.close()
