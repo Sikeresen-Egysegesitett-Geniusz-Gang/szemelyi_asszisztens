@@ -7,4 +7,4 @@ if __name__ == "__main__":
     parser.add_argument("ido", help="ido")
 
     args = parser.parse_args()
-    print(args)
+    print(args.indulas)
