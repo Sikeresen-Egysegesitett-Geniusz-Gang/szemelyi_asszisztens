@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("ido", help="ido")
     args = parser.parse_args()
 
-link1 = "http://elvira.mav-start.hu/elvira.dll/x/uf?iehack=%3F&ed=5E5E6229&mikor=-1&isz=0&language=1&k=&ref=&retur=&nyit=&_charset_=UTF-8&vparam=&i="
+link1 = "http://elvira.mav-start.hu/elvira.dll/x/uf?iehack=%3F&ed=5E831FFD&mikor=-1&isz=0&language=1&k=&ref=&retur=&nyit=&_charset_=UTF-8&vparam=&i="
 indul = args.indulas
 link2 = "&e="
 erkez = args.erkezes
@@ -26,23 +26,25 @@ file_name = indul+"-"+erkez+"-"+datum+".csv"
 csv_file = open("elvira_data\\"+file_name, 'w')
 csv_writer =  csv.writer(csv_file)
 csv_writer.writerow(['Indulas','Erkezes','Atszallas','Idotartam','Osszes Km'])
+
+
 helyadat = soup.find_all("div", class_="xformcontrol2")
-helyindul = helyadat[0].input['value'].encode('utf-8')
-helyerkez = helyadat[1].input['value'].encode('utf-8')
+helyindul = helyadat[0].input['value']
+helyerkez = helyadat[1].input['value']
 timetable = soup.find("div", class_="rtf").tbody
 tablerow = timetable.find_all("tr", {"style" : re.compile(r".*")})
 datanums = 0
 for usefuldatarows in range(0, len(tablerow), 2):
     usefuldatas = tablerow[usefuldatarows].find_all('td')
-    ind = usefuldatas[1].text.encode('utf-8').strip()
-    erk = usefuldatas[2].text.encode('utf-8').strip()
-    atsz = usefuldatas[3].text.encode('utf-8').strip()
-    ido = usefuldatas[4].text.encode('utf-8').strip()
-    km = usefuldatas[5].text.encode('utf-8').strip()
-    if ' ' not in ind:
-        ind = ind +' '+helyindul
+    ind = usefuldatas[1].text.strip()
+    erk = usefuldatas[2].text.strip()
+    atsz = usefuldatas[3].text.strip()
+    ido = usefuldatas[4].text.strip()
+    km = usefuldatas[5].text.strip()
+    if ' ' not in ind :
+        ind = str(ind) +' '+helyindul
     if ' ' not in erk:
-        erk = erk +' '+helyerkez 
+        erk = str(erk) +' '+helyerkez 
     csv_writer.writerow([ind,erk,atsz,ido,km])
     datanums = datanums + 1
 print("record num: "+str(datanums))
